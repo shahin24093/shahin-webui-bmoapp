@@ -30,4 +30,5 @@ jobs:
         run: | 
           ls -a
           cat health.html
+          time curl -I locahost:1234 | grep http
           
