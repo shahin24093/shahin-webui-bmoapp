@@ -1,0 +1,20 @@
+#create pipeline with some name
+name: shahin app containerization pipeline
+# trigger-- when this pipeline should start
+on:
+  push:
+    branches:
+      - "main"
+#jobs we want to perform
+jobs:
+  shahin-image-build:
+    runs-on: ubunto-latest
+    # this is the runner which provisioned by github backend for this job
+    steps:
+      - name: run some basic commands on above server to do some verification
+        run: |
+          uname -r 
+          whoami
+          cat /etc/os-release
+          docker version
+          docker-compose version
