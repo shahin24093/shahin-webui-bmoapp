@@ -28,6 +28,5 @@ jobs:
           docker-compose ps 
       - name: verify health check page by accessing it
         run: | 
-          docker exec -dit shahinc1 bash 
-          cat /usr/share/nginx/html/health.html
-          
+          echo "access health html page using curl" 
+          curl -f http://localhost:1234/health.html
