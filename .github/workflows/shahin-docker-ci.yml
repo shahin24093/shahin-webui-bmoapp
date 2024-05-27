@@ -30,3 +30,9 @@ jobs:
         run: | 
           echo "access health html page using curl" 
           curl -f http://localhost:1234/health.html
+      - name: try to login using docker login
+        run: |
+          docker login -u shahin24093 -p Ghadri@12
+          docker tag shahin-webui:v4 docker.io/shahin24093/shahinbmoui:v1
+          docker push docker.io/shahin24093/shahinbmoui:v1
+          docker logout
