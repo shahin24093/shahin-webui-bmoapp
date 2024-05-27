@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  shahin-ui-app:
+    image: shahin-webui:v3
+    build: . #location of the docker file
+    container_name: shahinc1
+    ports:
+      - 1234:80
