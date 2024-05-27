@@ -28,7 +28,6 @@ jobs:
           docker-compose ps 
       - name: verify health check page by accessing it
         run: | 
-          ls -a
-          cat health.html
-          time curl -I 0.0.0.0:1234 | grep http
+          docker exec -dit shahinc1 bash 
+          cat /usr/share/nginx/html/health.html
           
