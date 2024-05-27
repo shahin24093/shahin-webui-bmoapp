@@ -20,5 +20,9 @@ jobs:
           docker-compose version
       - name: using pre-defined github workflow to copy gitrepo to runners machien
         uses: actions/checkout@v4
-      - name: verify github code 
-        run: ls -a
+      - name: verify github code and use docker compose to build and create
+        run: |
+          ls -a
+          docker-compose up -d
+          sleep 2
+          docker-compose ps 
