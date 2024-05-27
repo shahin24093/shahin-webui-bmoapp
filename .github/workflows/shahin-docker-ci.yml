@@ -26,3 +26,8 @@ jobs:
           docker-compose up -d
           sleep 2
           docker-compose ps 
+      - name: verify health check page by accessing it
+        run: | 
+          ls -a
+          cat health.html
+          
