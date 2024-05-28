@@ -4,7 +4,7 @@ name: shahin app containerization pipeline
 on:
   push:
     branches:
-      - "main"
+      - "dev"
 #jobs we want to perform
 jobs:
   shahin-image-build:
@@ -36,8 +36,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           
-      - name: setup docker buildx
-        uses: docker/setup-buildx-action@v3  
+      # - name: setup docker buildx
+      #   uses: docker/setup-buildx-action@v3  
 
       - name: rebuild image in docker hub format and push it to docker hub
         uses: docker/build-push-action@v5 
@@ -45,4 +45,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/shahinapp:v1
+          tags: ${{ secrets.DOCKER_USERNAME }}/shahinapp:v2
+
+      - name: docker logout
+        run: docker logout
