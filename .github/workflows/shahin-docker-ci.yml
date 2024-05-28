@@ -26,7 +26,7 @@ jobs:
         with:
           projectBaseDir: .
           args: >
-            -Dsonar.projectkey=shahin-python-project
+            -Dsonar.projectKey=shahin-python-project
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
