@@ -7,22 +7,28 @@ on:
       - "dev"
 
 jobs:
-  shahin-code-checkjob:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checking only
-        run: |
-          echo "checking stuff"
-          whoami
   shahin-sast-job:
     runs-on: self-hosted
-    needs: shahin-code-checkjob
     steps:
       - name: checking docker version and sonar scanner
         run: |
-          docker version
           sonar-scanner --version
           pwd
+      - name: using pre-defined github workflow to copy gitrepo to runners machine
+        uses: actions/checkout@v4
+      
+      # - name: SonarQube Scan
+      #   uses: SonarSource/sonarqube-scan-action@v2.1.0 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
+      #   with:
+      #     projectBaseDir: .
+      #     args: >
+      #       -Dsonar.projectKey=shahin-python-project
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: using local sonar-scanner
+        run: |
+          sonar-scanner.bat -D"sonar.projectKey=shahin-python-project" -D"sonar.sources=." -D"sonar.host.url=${{ secrets.SONAR_HOST_URL }}" -D"sonar.token=${{ secrets.SONAR_TOKEN }}"      
   shahin-build-job:
     runs-on: macos-latest
     needs: shahin-sast-job
