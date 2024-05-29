@@ -4,7 +4,7 @@ name: shahin app containerization pipeline
 on:
   push:
     branches:
-      - "dev"
+      - "dev1"
 #jobs we want to perform
 jobs:
   shahin-image-build:

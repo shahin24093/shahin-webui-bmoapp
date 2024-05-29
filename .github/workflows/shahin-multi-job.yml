@@ -1,0 +1,32 @@
+#create pipeline with some name
+name: shahin app containerization pipeline
+# trigger-- when this pipeline should start
+on:
+  push:
+    branches:
+      - "dev"
+
+jobs:
+  shahin-code-checkjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking only
+        run: |
+          echo: "checking stuff"
+          whoami
+  shahin-sast-job:
+    runs-on: self-hosted
+    needs: shahin-code-checkjob
+    steps:
+      - name: checking docker version and sonar scanner
+        run: |
+          docker version
+          sonar-scanner --version
+  shahin-build-job:
+    runs-on: macos-latest
+    needs: shahin-sast-job
+    steps:
+      - name: checking general message
+        run: |
+          echo "checking pytho version"
+          python -V
