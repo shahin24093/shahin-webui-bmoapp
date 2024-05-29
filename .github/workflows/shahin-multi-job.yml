@@ -29,9 +29,10 @@ jobs:
             .
             !**/.git*
             !**/*.md
+            !**/.scannerwork
           
   shahin-build-job:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs: shahin-sast-job
     steps:
       - name: checking general message
