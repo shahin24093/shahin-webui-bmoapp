@@ -17,23 +17,43 @@ jobs:
       - name: using pre-defined github workflow to copy gitrepo to runners machine
         uses: actions/checkout@v4
       
-      # - name: SonarQube Scan
-      #   uses: SonarSource/sonarqube-scan-action@v2.1.0 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
-      #   with:
-      #     projectBaseDir: .
-      #     args: >
-      #       -Dsonar.projectKey=shahin-python-project
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: using local sonar-scanner
         run: |
           sonar-scanner.bat -D"sonar.projectKey=shahin-python-project" -D"sonar.sources=." -D"sonar.host.url=${{ secrets.SONAR_HOST_URL }}" -D"sonar.token=${{ secrets.SONAR_TOKEN }}"      
+
+      - name: uploading artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shahin-artifact
+          path: |
+            .
+            !**/.git*
+            !**/*.md
+          
   shahin-build-job:
     runs-on: macos-latest
     needs: shahin-sast-job
     steps:
       - name: checking general message
         run: |
-          echo "checking pytho version"
-          python -V
+          echo "checking docker things"
+          docker version
+          docker-compose version
+      
+      - name: downloading artifact 
+        uses: actions/download-artifact@v4
+        with: 
+          name: shahin-artifact  
+          path: .
+
+      - name: docker compose and build 
+        run: |
+          ls -a
+          docker-compose up -d
+          sleep 2
+          docker-compose ps 
+    
+      - name: verify health check page by accessing it
+        run: | 
+          echo "access health html page using curl" 
+          curl -f http://localhost:1234/health.html  
