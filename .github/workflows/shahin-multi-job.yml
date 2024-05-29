@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: checking only
         run: |
-          echo: "checking stuff"
+          echo "checking stuff"
           whoami
   shahin-sast-job:
     runs-on: self-hosted
