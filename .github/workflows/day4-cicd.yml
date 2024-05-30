@@ -30,3 +30,14 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    
+      - name: verify github code and use docker compose to build and create
+        run: |
+          ls -a
+          cd python-app-secret
+          docker-compose up -d
+          sleep 2
+          docker-compose ps 
+          sleep 1
+          docker-compose logs
+    
