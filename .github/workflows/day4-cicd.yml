@@ -62,9 +62,13 @@ jobs:
           docker push docker.io/shahin24093/shahinpy:bmov${{ github.sha }}
           docker logout
 
-      - name: checking cdk version
-        run: |
-          node -v 
-          npm -v 
-          cdk --version
-          aws --version
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # - run: npm ci
+      # - run: npm test
+
+      - run: |
+          node --version
+          cd ecs 
+          npm install
