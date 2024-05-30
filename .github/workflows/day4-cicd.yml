@@ -68,7 +68,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: 'shahinpy:bmov${{ github.sha }}'
+          image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/shahinpy:bmov${{ github.sha }}'
           format: 'table'
           exit-code: '0'
           ignore-unfixed: true
