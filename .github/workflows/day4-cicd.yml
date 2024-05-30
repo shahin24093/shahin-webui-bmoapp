@@ -55,4 +55,9 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-    
+      - name: push image to docker hub
+        run: |
+          docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+          docker tag shahinpy:bmov${{ github.sha }} docker.io/shahin24093/shahinpy:bmov${{ github.sha }}
+          docker push docker.io/shahin24093/shahinpy:bmov${{ github.sha }}
+          docker logout
