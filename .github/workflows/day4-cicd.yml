@@ -84,3 +84,7 @@ jobs:
           cd ecs 
           npx cdk bootstrap
           npx cdk deploy --no-rollback --require-approval never 
+          
+      - run: |
+          cd ecs 
+          npx cdk destroy --force
