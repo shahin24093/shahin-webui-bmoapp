@@ -61,3 +61,10 @@ jobs:
           docker tag shahinpy:bmov${{ github.sha }} docker.io/shahin24093/shahinpy:bmov${{ github.sha }}
           docker push docker.io/shahin24093/shahinpy:bmov${{ github.sha }}
           docker logout
+
+      - name: checking cdk version
+        run: |
+          node -v 
+          npm -v 
+          cdk --version
+          aws --version
