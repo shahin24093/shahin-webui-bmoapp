@@ -4,7 +4,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as ecs from 'aws-cdk-lib/aws-ecs'
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
-export class ShahinEcsCdkStack extends cdk.Stack {
+export class ShahinEcsCdkStack1 extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
     // refering to existing vpc 
@@ -13,7 +13,7 @@ export class ShahinEcsCdkStack extends cdk.Stack {
     });
     // defining ECS cluster info 
     const cluster = new ecs.Cluster(this,'shahin-ecs-cluster',{
-      clusterName: 'shahin-ecs-bycdk',
+      clusterName: 'shahin-ecs-multistage',
       vpc: vpc,
       enableFargateCapacityProviders: true ,
       containerInsights: true // enable cloudwatch monitoring 

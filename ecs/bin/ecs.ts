@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { ShahinEcsCdkStack } from '../lib/ecs-stack';
+import { ShahinEcsCdkStack1 } from '../lib/ecs-stack';
 
 const app = new cdk.App();
-new ShahinEcsCdkStack(app, 'ShahinEcsCdkStack', {
+new ShahinEcsCdkStack1(app, 'ShahinEcsCdkStack1', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
