@@ -1,0 +1,32 @@
+#create pipeline with some name
+name: shahin app containerization pipeline
+# trigger-- when this pipeline should start
+on:
+  push:
+    branches:
+      - "dev"
+#jobs we want to perform
+jobs:
+  shahin-image-build:
+    runs-on: ubuntu-latest
+    # this is the runner which provisioned by github backend for this job
+    steps:
+      - name: run some basic commands on above server to do some verification
+        run: |
+          uname -r 
+          whoami
+          cat /etc/os-release
+          docker version
+          docker-compose version
+      - name: using pre-defined github workflow to copy gitrepo to runners machien
+        uses: actions/checkout@v4
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v2.1.0 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
+        with:
+          projectBaseDir: ./python-app-secret
+          args: >
+            -Dsonar.projectKey=shahin-sonar-project
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

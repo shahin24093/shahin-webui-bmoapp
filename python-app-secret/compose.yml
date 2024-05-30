@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  shahinapp:
+    image: shahinpy:bmov1
+    build: .
+    container_name: shahinc1
+    tty: true
