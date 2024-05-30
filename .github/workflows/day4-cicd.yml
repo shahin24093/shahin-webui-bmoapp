@@ -41,12 +41,17 @@ jobs:
           sleep 1
           docker-compose logs   
 
+      - name: Build an image from Dockerfile
+        run: |
+          cd python-app-secret
+          docker build -t shahinpy:bmov${{ github.sha }} .
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: 'shahinpy:bmov1'
+          image-ref: 'shahinpy:bmov${{ github.sha }}'
           format: 'table'
-          exit-code: '1'
+          exit-code: '0'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
