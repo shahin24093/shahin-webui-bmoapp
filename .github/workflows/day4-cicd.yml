@@ -39,7 +39,7 @@ jobs:
           sleep 2
           docker-compose ps 
           sleep 1
-          docker-compose logs      - name: Build an image from Dockerfile
+          docker-compose logs   
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
