@@ -25,7 +25,10 @@ export class ShahinEcsCdkStack1 extends cdk.Stack {
     //   minCapacity: 1,
     //   maxCapacity: 5
     // });
-
+    const imageTag = this.node.tryGetContext('imageTag');
+    if (!imageTag) {
+      throw new Error('context variable name is required');
+    };
     // task Definition of farget launch type 
     const shahinTaskDef = new ecs.FargateTaskDefinition(this,'shahin-frg-task1',{
       cpu:  256,
@@ -34,11 +37,27 @@ export class ShahinEcsCdkStack1 extends cdk.Stack {
     });
     // adding container info 
     const container = shahinTaskDef.addContainer('shahincdkc1',{
-      image: ecs.ContainerImage.fromRegistry('shahin24093/shahinpy:bmov82dac961d9c42b79c9c3afec3e1fe43b68157ccd'),
+      image: ecs.ContainerImage.fromRegistry(`shahin24093/shahinbmoweb:bmov${imageTag}`),
       memoryLimitMiB: 256,
       portMappings: [{ containerPort: 80 }]
     });
 
+    // creating security group 
+    const shahinsecgroup = new ec2.SecurityGroup(this,'shahinfirewallgrp',{
+      vpc: vpc,
+      description: 'allow ingress rules for 80 port'
+    });
+    shahinsecgroup.addIngressRule(ec2.Peer.anyIpv4(),ec2.Port.tcp(80),'allow http traffic');
+    // creating service using above task defintion 
+
+    const service = new ecs.FargateService(this,'ashuECSserviceCDK',{
+      cluster,
+      taskDefinition: shahinTaskDef,
+      serviceName: 'shahin-svc-viacdk',
+      desiredCount: 2,
+      assignPublicIp: true,
+      securityGroups: [shahinsecgroup]   // attaching security group 
+    });
    
   }
 }

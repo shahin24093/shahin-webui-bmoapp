@@ -27,6 +27,7 @@ jobs:
           projectBaseDir: .
           args: >
             -Dsonar.projectKey=shahin-sonar-project
+          # -Dsonar.exclusions=ecr/**,Dockerfile,compose.yml,*.html
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -53,7 +54,6 @@ jobs:
       - name: verify github code and use docker compose to build and create
         run: |
           ls -a
-          cd python-app-secret
           docker-compose up -d
           sleep 2
           docker-compose ps 
@@ -62,13 +62,12 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          cd python-app-secret
-          docker build -t docker.io/${{ secrets.DOCKER_USERNAME }}/shahinpy:bmov${{ github.sha }} .
+          docker build -t docker.io/${{ secrets.DOCKER_USERNAME }}/shahinbmoweb:bmov${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/shahinpy:bmov${{ github.sha }}'
+          image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/shahinbmoweb:bmov${{ github.sha }}'
           format: 'table'
           exit-code: '0'
           ignore-unfixed: true
@@ -77,7 +76,7 @@ jobs:
       - name: push image to docker hub
         run: |
           docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
-          docker push docker.io/${{ secrets.DOCKER_USERNAME }}/shahinpy:bmov${{ github.sha }}
+          docker push docker.io/${{ secrets.DOCKER_USERNAME }}/shahinbmoweb:bmov${{ github.sha }}
           docker logout
 
   shahin-cdk-build:
@@ -109,8 +108,8 @@ jobs:
       - name: cdk deploy
         run: |
           cd ecs 
-          npx cdk bootstrap
-          npx cdk deploy --no-rollback --require-approval never 
+          # npx cdk bootstrap
+          npx cdk deploy --context imageTag=${{ github.sha }} --require-approval never 
           
       # - run: |
       #     cd ecs 
